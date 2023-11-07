@@ -26,6 +26,16 @@ public class moveForwardScript : MonoBehaviour
         // Move Carel to the new position.
         carel.transform.position = newPosition;
     }
+    public void MoveCareltest(int steps)
+    {
+        //int steps = int.Parse(stepsInputField.text);
+
+        // Calculate the new position based on the number of steps and the move direction.
+        Vector3 newPosition = carel.transform.position + (moveDirection * steps);
+
+        // Move Carel to the new position.
+        carel.transform.position = newPosition;
+    }
 
     // Update the moveDirection based on Carel's rotation.
     private void UpdateMoveDirection()

@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stepsInputField: {fileID: 0}
-  carel: {fileID: 0}
+  carel: {fileID: 1195613826}
 --- !u!1 &139519110
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 884ba0c081cbc81448c58b6b874666a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carel: {fileID: 0}
+  carel: {fileID: 1195613826}
   turnAngle: 90
 --- !u!1 &398899548 stripped
 GameObject:
@@ -992,8 +992,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d23e0be383451e4e8f9a7f3854f5954, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1195613827}
   m_SourcePrefab: {fileID: 100100000, guid: 3d23e0be383451e4e8f9a7f3854f5954, type: 3}
+--- !u!1 &1195613826 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d23e0be383451e4e8f9a7f3854f5954, type: 3}
+  m_PrefabInstance: {fileID: 1195613825}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1195613827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195613826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33176c45d69172f4f83061b770af04a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carel: {fileID: 1195613826}
+  moveScript: {fileID: 74114442}
+  turnLeftScript: {fileID: 1890124796}
+  turnRightScript: {fileID: 195477055}
 --- !u!1 &1308619233 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7736618154129763026, guid: 92c77c3e516e2944bb21e24496238d25, type: 3}
@@ -1586,7 +1610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b013f9c0f1af0748b3ab34235c9bc48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carrel: {fileID: 0}
+  carrel: {fileID: 1195613826}
   turnAngle: 90
 --- !u!1001 &5937671869805158321
 PrefabInstance:
