@@ -350,3 +350,4 @@
 {"msg":"enqueueNode","enqueuedNodeAnnotation":"MovedFromExtractorCombine Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll.mvfrm","enqueuedNodeIndex":295,"enqueueingNodeAnnotation":"Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)","enqueueingNodeIndex":283}
 {"msg":"enqueueNode","enqueuedNodeAnnotation":"WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll.mvfrm.rsp","enqueuedNodeIndex":294,"enqueueingNodeAnnotation":"MovedFromExtractorCombine Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll.mvfrm","enqueueingNodeIndex":295}
 {"msg":"enqueueNode","enqueuedNodeAnnotation":"CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb","enqueuedNodeIndex":351,"enqueueingNodeAnnotation":"ScriptAssemblies","enqueueingNodeIndex":6}
+{"msg":"interrupted","reason":"BeeDriver connection terminated"}
