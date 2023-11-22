@@ -10,6 +10,7 @@ public class clickAndDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject PB;
     private GameObject newPB;
+    public GameObject PH;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
