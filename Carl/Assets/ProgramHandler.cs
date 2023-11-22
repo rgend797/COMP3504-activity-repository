@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class ProgramHandler : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     public List<GameObject> list;
-    public string[] command;
+    public List<string> command;
     private object rectTransform;
     private int top;
 
@@ -24,6 +25,11 @@ public class ProgramHandler : MonoBehaviour
         {
             Debug.Log("space key was pressed");
             Debug.Log(list.Count);
+            for (int i = 0; i < command.Count; i++)
+            {
+                Debug.Log(command[i]);
+            }
+            Debug.Log(getCommand());
         }
     }
 
@@ -63,5 +69,14 @@ public class ProgramHandler : MonoBehaviour
     public void log()
     {
         Debug.Log(list);
+    }
+
+    public string[] getCommand()
+    {
+        foreach (GameObject item in list)
+        {
+            command.Add(item.GetComponent<ProgramBlock>().getName());
+        }
+        return command.ToArray();
     }
 }

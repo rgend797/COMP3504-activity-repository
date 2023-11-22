@@ -15,6 +15,9 @@ public class ProgramBlock : MonoBehaviour, IPointerDownHandler, IEndDragHandler,
     public RectTransform rectTransform;
     public GameObject ghost;
     public GameObject PH;
+    public string name;
+
+    public string getName() {  return name; }
 
     private void Awake()
     {
