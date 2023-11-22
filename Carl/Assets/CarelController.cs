@@ -1,14 +1,20 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+
 
 public class CarelController : MonoBehaviour
 {
+
     // Define a delegate for functions with no parameters and void return type.
-    public delegate void CarelAction();
+    public delegate void CarelAction(Rigidbody carelRigidbody);
+    public Rigidbody carelRigidbody;
+
+    string[] commands = new string[] { "FORWARD", "RIGHT", "LEFT", "LEFT", "RIGHT", "FORWARD", "RIGHT", "LEFT" };
 
     // Create a list to store Carel actions (functions).
-    private List<CarelAction> actionList = new List<CarelAction>();
+    //private List<CarelAction> actionList = new List<CarelAction>();
 
     public GameObject carel; // Reference to Carel's GameObject.
 
@@ -17,35 +23,66 @@ public class CarelController : MonoBehaviour
     public turnLeftCodingBlock turnLeftScript;
     public turnRightBlockScript turnRightScript;
 
+
     private void Start()
     {
         // Add the desired functions to the action list.
-        actionList.Add(TurnRight);
-        actionList.Add(TurnLeft);
-        actionList.Add(() => MoveCareltest(2)); // Example of moving Carel forward 2 steps.
+        // actionList.Add(TurnRight);
+        //actionList.Add(TurnLeft);
+        //actionList.Add(() => MoveCareltest()); // Example of moving Carel forward 2 steps.
 
         // Execute the actions in the list.
-        foreach (var action in actionList)
-        {
-            action.Invoke();
-        }
+        //foreach (var action in actionList)
+        //{
+        //action.Invoke();
+        
+        ex();
     }
 
+    public void ex()
+    {
+        foreach (var action in commands)
+        {
+            if (action == "FORWARD")
+            {
+                MoveCareltest();
+            }
+            else if (action == "RIGHT")
+            {
+                TurnRight();
+            }
+            else if (action == "LEFT")
+            {
+                TurnLeft();
+            }
+            else
+            {
+                Debug.LogError(action + "is an invaild command");
+            }
+
+        }
+    }
     // Define the TurnRight function.
     public void TurnRight()
     {
-        turnRightScript.TurnRight();
+        turnRightBlockScript scriptForRight = turnRightScript.GetComponent<turnRightBlockScript>();
+
+        StartCoroutine(scriptForRight.TurnRight(carelRigidbody));
     }
 
     // Define the TurnLeft function.
     public void TurnLeft()
     {
-        turnLeftScript.TurnLeft();
+        turnLeftCodingBlock scriptForLeft = turnLeftScript.GetComponent<turnLeftCodingBlock>();
+
+        StartCoroutine(scriptForLeft.TurnLeft(carelRigidbody));
     }
 
     // Define the MoveCareltest function.
-    public void MoveCareltest(int steps)
+    public void MoveCareltest()
     {
-        moveScript.MoveCareltest(steps);
+        moveForwardScript scriptForMove = moveScript.GetComponent<moveForwardScript>();
+
+        StartCoroutine(scriptForMove.MoveCarlTest(carelRigidbody));
     }
 }
