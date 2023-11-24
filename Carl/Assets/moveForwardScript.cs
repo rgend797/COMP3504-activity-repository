@@ -22,7 +22,6 @@ public class moveForwardScript : MonoBehaviour
 
     private void Update()
     {
-        // You can keep this method empty for now.
         // MoveCareltest will be called from CarelController's Update.
     }
 

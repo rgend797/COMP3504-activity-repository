@@ -7,6 +7,7 @@ using UnityEngine;
 public class ProgramHandler : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
+    private GameObject Carlo;
     public List<GameObject> list;
     public List<string> command;
     private object rectTransform;
@@ -19,12 +20,13 @@ public class ProgramHandler : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+   /** void Update()
     {
         if (Input.GetKeyDown("space"))
         {
             Debug.Log("space key was pressed");
             Debug.Log(list.Count);
+            getCommand();
             for (int i = 0; i < command.Count; i++)
             {
                 Debug.Log(command[i]);
@@ -32,13 +34,13 @@ public class ProgramHandler : MonoBehaviour
             Debug.Log(getCommand());
         }
     }
-
+   **/
     public void updateList()
     {
         top = (int) Mathf.Round(canvas.GetComponent<RectTransform>().rect.height);
         //Debug.Log("Height " + top);
-        Debug.Log(list);
-        Debug.Log(list.Count);
+        //Debug.Log(list);
+        //Debug.Log(list.Count);
         GameObject[] fist = list.ToArray();
         foreach (GameObject item in list)
         {
@@ -63,16 +65,17 @@ public class ProgramHandler : MonoBehaviour
     public void Remove(GameObject obj)
     {
         list.Remove(obj);
-        Debug.Log("Removed");
+        //Debug.Log("Removed");
     }
 
     public void log()
     {
-        Debug.Log(list);
+        //Debug.Log(list);
     }
 
     public string[] getCommand()
     {
+        command.Clear();
         foreach (GameObject item in list)
         {
             command.Add(item.GetComponent<ProgramBlock>().getName());
