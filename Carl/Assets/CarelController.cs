@@ -64,7 +64,7 @@ public class CarelController : MonoBehaviour
         float  postion = 0.5f;
         // Move Carel to home position.
         Vector3 homePosition = new Vector3(postion, 0, -postion);
-        Quaternion homeRotation = Quaternion.Euler(0, 90, 0);
+        Quaternion homeRotation = Quaternion.Euler(0, 0, 0);
         carelRigidbody.MovePosition(homePosition);
         carelRigidbody.rotation = homeRotation;
 
