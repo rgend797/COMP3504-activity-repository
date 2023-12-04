@@ -5,7 +5,7 @@ using System.Net.NetworkInformation;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using UnityEngine.UIElements;
 
 public class CarelController : MonoBehaviour
 {
@@ -22,6 +22,8 @@ public class CarelController : MonoBehaviour
     public GameObject carel; // Reference to Carel's GameObject.
     public GameObject alphabet;
     public ProgramHandler handler;
+    private bool isWaiting = true;
+
 
     // Reference to your moveForwardScript and turnLeftCodingBlock scripts.
 
@@ -39,6 +41,7 @@ public class CarelController : MonoBehaviour
         //action.Invoke();
 
         //ex();
+        carelRigidbody = GetComponent<Rigidbody>();
 
         UpdateMoveDirection();
 
@@ -50,14 +53,34 @@ public class CarelController : MonoBehaviour
             Debug.Log(gameObject.transform.eulerAngles.y);
 
 
-           StartCoroutine(ExecuteCommandsCoroutine());
+            // StartCoroutine(ExecuteCommandsCoroutine());
+            StartCoroutine(ResetCarelPosition());
         }
     }
-    
+
+    IEnumerator ResetCarelPosition()
+    {
+
+        float  postion = 0.5f;
+        // Move Carel to home position.
+        Vector3 homePosition = new Vector3(postion, 0, -postion);
+        Quaternion homeRotation = Quaternion.Euler(0, 90, 0);
+        carelRigidbody.MovePosition(homePosition);
+        carelRigidbody.rotation = homeRotation;
+
+        // Wait for 5 seconds.
+        yield return new WaitForSeconds(2f);
+
+        // After waiting, execute the commands.
+        StartCoroutine(ExecuteCommandsCoroutine());
+    }
+
 
     public  IEnumerator  ExecuteCommandsCoroutine()
     {
         String[] c = handler.getCommand();
+
+       
         foreach (var command in c)
         {
             switch (command)
@@ -77,39 +100,7 @@ public class CarelController : MonoBehaviour
         }
 
     }
-    private void ex()  
-    {
-        String[] commands = handler.getCommand();
-        foreach (var action in commands)
-        {
-            UpdateMoveDirection();
-            if (action == "Forward")
-            {
-                StartCoroutine( MoveCarlTest());
-                
-                
-
-            }
-            else if (action == "Right")
-            {
-                StartCoroutine(TurnRight());
-
-            }
-            else if (action == "Left")
-            {
-               StartCoroutine( TurnLeft());
-               
-            }
-            else
-            {
-                Debug.LogError(action + "is an invaild command");
-            }
-
-           // yield return new WaitForSeconds(1f);
-
-
-        }
-    }
+    
 
     //public string[] git() => ;//alphabet.GetComponent<ProgramHandler>.getCommand();
     // Define the TurnRight function.
@@ -138,13 +129,16 @@ public class CarelController : MonoBehaviour
             Debug.LogWarning("Carel is not facing a valid direction.");
         }
     }
-    public IEnumerator MoveCarlTest()
+    /* public IEnumerator MoveCarlTest()
     {
         /// the amount of steps carl will take
         int steps = 1;
         Debug.Log(moveDirection);
+
+        UpdateMoveDirection();
+
         // carls new postion
-        Vector3 newPosition = carel.transform.position + (transform.forward * steps);
+        Vector3 newPosition = carel.transform.position + ( transform.forward * steps);
 
         // how long carl takes to walk to destination
         float timeToDestination = 1f;
@@ -166,6 +160,45 @@ public class CarelController : MonoBehaviour
 
         }
 
+    }
+    */
+
+    public IEnumerator MoveCarlTest()
+    {
+        // The amount of steps Carl will take
+        int steps = 1;
+        Debug.Log(moveDirection);
+
+
+        // Ensure that 'moveDirection' is updated based on Carl's current orientation.
+        UpdateMoveDirection();
+
+        // Carl's new position
+        // Replace 'transform.forward' with 'moveDirection' to use the updated movement direction
+        Vector3 newPosition = carel.transform.position + (-transform.right  * steps);
+
+        // How long Carl takes to walk to destination
+        float timeToDestination = 1f;
+
+        // Start time of the movement
+        float startTime = Time.time;
+
+        // Initial position of Carl
+        Vector3 initialPosition = carelRigidbody.position;
+
+        while (Time.time < startTime + timeToDestination)
+        {
+            // Calculate the completion ratio
+            float ratio = (Time.time - startTime) / timeToDestination;
+
+            // Update Carl's position
+            carelRigidbody.MovePosition(Vector3.Lerp(initialPosition, newPosition, ratio));
+
+            yield return null;
+        }
+
+        // Ensure Carl is exactly at the new position after the movement
+        carelRigidbody.MovePosition(newPosition);
     }
 
     public float turnAngle = 90f;
