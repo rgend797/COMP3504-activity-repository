@@ -144,7 +144,7 @@ public class CarelController : MonoBehaviour
         int steps = 1;
         Debug.Log(moveDirection);
         // carls new postion
-        Vector3 newPosition = carel.transform.position + (transform.forward * steps);
+        Vector3 newPosition = carel.transform.position + (transform.forward * steps/27);
 
         // how long carl takes to walk to destination
         float timeToDestination = 1f;

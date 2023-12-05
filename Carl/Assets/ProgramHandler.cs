@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,8 +40,8 @@ public class ProgramHandler : MonoBehaviour
     {
         top = (int) Mathf.Round(canvas.GetComponent<RectTransform>().rect.height);
         //Debug.Log("Height " + top);
-        //Debug.Log(list);
-        //Debug.Log(list.Count);
+        Debug.Log(list);
+        Debug.Log(list.Count);
         GameObject[] fist = list.ToArray();
         foreach (GameObject item in list)
         {
@@ -65,12 +66,12 @@ public class ProgramHandler : MonoBehaviour
     public void Remove(GameObject obj)
     {
         list.Remove(obj);
-        //Debug.Log("Removed");
+        Debug.Log("Removed");
     }
 
-    public void log()
+    public Boolean inList(GameObject obj)
     {
-        //Debug.Log(list);
+        return list.Contains(obj);
     }
 
     public string[] getCommand()
