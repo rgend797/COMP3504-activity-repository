@@ -22,7 +22,7 @@ public class CarelController : MonoBehaviour
     public GameObject carel; // Reference to Carel's GameObject.
     public GameObject alphabet;
     public ProgramHandler handler;
-    private bool isWaiting = true;
+    private bool isWaiting = false;
 
 
     // Reference to your moveForwardScript and turnLeftCodingBlock scripts.
@@ -42,19 +42,17 @@ public class CarelController : MonoBehaviour
 
         //ex();
         carelRigidbody = GetComponent<Rigidbody>();
-
         UpdateMoveDirection();
 
     }
     void Update()
     {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("space") && isWaiting == false)
         {
             Debug.Log(gameObject.transform.eulerAngles.y);
 
-
-            // StartCoroutine(ExecuteCommandsCoroutine());
             StartCoroutine(ResetCarelPosition());
+
         }
     }
 
@@ -69,7 +67,7 @@ public class CarelController : MonoBehaviour
         carelRigidbody.rotation = homeRotation;
 
         // Wait for 5 seconds.
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
 
         // After waiting, execute the commands.
         StartCoroutine(ExecuteCommandsCoroutine());
@@ -80,7 +78,7 @@ public class CarelController : MonoBehaviour
     {
         String[] c = handler.getCommand();
 
-       
+        isWaiting = true;
         foreach (var command in c)
         {
             switch (command)
@@ -95,12 +93,14 @@ public class CarelController : MonoBehaviour
                     yield return StartCoroutine(TurnLeft());
                     break;
             }
-            yield return new WaitForSeconds(1f); // Wait for one second
+            yield return new WaitForSeconds(0.5f); // Wait for one second
 
         }
+        isWaiting = false;
+
 
     }
-    
+
 
     //public string[] git() => ;//alphabet.GetComponent<ProgramHandler>.getCommand();
     // Define the TurnRight function.
@@ -189,7 +189,7 @@ public class CarelController : MonoBehaviour
         while (Time.time < startTime + timeToDestination)
         {
             // Calculate the completion ratio
-            float ratio = (Time.time - startTime) / timeToDestination;
+            float ratio = ((Time.time - startTime) / timeToDestination)*3;
 
             // Update Carl's position
             carelRigidbody.MovePosition(Vector3.Lerp(initialPosition, newPosition, ratio));
@@ -212,7 +212,7 @@ public class CarelController : MonoBehaviour
 
         while (currentTime < turnDuration)
         {
-            currentTime += Time.deltaTime;
+            currentTime += Time.deltaTime*3;
             carelRigidbody.MoveRotation(Quaternion.Lerp(startRotation, endRotation, currentTime / turnDuration));
             yield return null;
         }
@@ -228,7 +228,7 @@ public class CarelController : MonoBehaviour
 
         while (currentTime < turnDuration)
         {
-            currentTime += Time.deltaTime;
+            currentTime += Time.deltaTime*3;
             carelRigidbody.MoveRotation(Quaternion.Lerp(startRotation, endRotation, currentTime / turnDuration));
             yield return null;
         }
