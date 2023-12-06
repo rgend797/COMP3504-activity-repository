@@ -397,6 +397,7 @@
 "Assets/TextMesh Pro/Examples & Extras/Scripts/WarpTextExample.cs"
 "Assets/turnLeftCodingBlock.cs"
 "Assets/turnRightBlockScript.cs"
+"Assets/winGoal.cs"
 -langversion:9.0
 
 /deterministic

@@ -83,6 +83,7 @@
      <Compile Include="Assets\fpsLimiter.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+     <Compile Include="Assets\winGoal.cs" />
      <Compile Include="Assets\CarelProgramHolder.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
