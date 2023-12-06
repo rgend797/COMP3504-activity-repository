@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<QCARConfig>
-  <Tracking>
-    <ImageTarget name="stones_scaled" size="1.000000 0.699219" />
-    <ImageTarget name="tarmac" size="1.000000 0.700000" />
-    <ImageTarget name="chips" size="1.000000 0.700000" />
-  </Tracking>
-</QCARConfig>
