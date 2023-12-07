@@ -15,13 +15,13 @@ public class ProgramBlock : MonoBehaviour, IPointerDownHandler, IEndDragHandler,
     public RectTransform rectTransform;
     public GameObject ghost;
     public GameObject PH;
-    public string name;
+    public string name = " ";
 
-    public string getName() {  return name; }
+    public string getName() { return name; }
 
     private void Awake()
     {
-        PH.GetComponent<ProgramHandler>().Add(gameObject);
+
         rectTransform = GetComponent<RectTransform>();
     }
 
@@ -36,6 +36,13 @@ public class ProgramBlock : MonoBehaviour, IPointerDownHandler, IEndDragHandler,
         ghost = Instantiate(gameObject, canvas.transform);
         ghost.transform.SetParent(canvas.transform.GetChild(2));
         ghost.GetComponent<Image>().color = new Color32(200, 200, 200, 100);
+        PH.GetComponent<ProgramHandler>().Add(ghost);
+        PH.GetComponent<ProgramHandler>().updateList();
+        if (!PH.GetComponent<ProgramHandler>().inList(gameObject))
+        {
+            PH.GetComponent<ProgramHandler>().Add(gameObject);
+        }
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -51,21 +58,21 @@ public class ProgramBlock : MonoBehaviour, IPointerDownHandler, IEndDragHandler,
 
     public void dropHandler()
     {
-        PH.GetComponent<ProgramHandler>().list.Remove(ghost);
+        PH.GetComponent<ProgramHandler>().Remove(ghost);
         Destroy(ghost);
         if (rectTransform.anchoredPosition.x > 0)
         {
-            PH.GetComponent<ProgramHandler>().list.Remove(gameObject);
+            PH.GetComponent<ProgramHandler>().Remove(gameObject);
             Destroy(gameObject);
         }
         //rectTransform.anchoredPosition = new Vector2(-300, Mathf.Round(rectTransform.anchoredPosition.y / 50) * 50);
         gameObject.transform.SetParent(canvas.transform.GetChild(2));
- 
+
         PH.GetComponent<ProgramHandler>().updateList();
     }
 
     public void dropHandler(int index)
     {
-        
+
     }
 }

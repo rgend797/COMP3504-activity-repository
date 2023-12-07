@@ -1,7 +1,12 @@
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class moveForwardScript : MonoBehaviour
 {
@@ -15,27 +20,12 @@ public class moveForwardScript : MonoBehaviour
         UpdateMoveDirection();
     }
 
-    // Update is called when the user presses a button or submits the input field.
-    public void MoveCarel()
+    private void Update()
     {
-        int steps = int.Parse(stepsInputField.text);
-
-        // Calculate the new position based on the number of steps and the move direction.
-        Vector3 newPosition = carel.transform.position + (moveDirection * steps);
-
-        // Move Carel to the new position.
-        carel.transform.position = newPosition;
+        // MoveCareltest will be called from CarelController's Update.
     }
-    public void MoveCareltest(int steps)
-    {
-        //int steps = int.Parse(stepsInputField.text);
 
-        // Calculate the new position based on the number of steps and the move direction.
-        Vector3 newPosition = carel.transform.position + (moveDirection * steps);
-
-        // Move Carel to the new position.
-        carel.transform.position = newPosition;
-    }
+    
 
     // Update the moveDirection based on Carel's rotation.
     private void UpdateMoveDirection()
@@ -59,4 +49,34 @@ public class moveForwardScript : MonoBehaviour
             Debug.LogWarning("Carel is not facing a valid direction.");
         }
     }
+    public IEnumerator MoveCarlTest(Rigidbody carelRigidbody)
+    {
+        /// the amount of steps carl will take
+        int steps = 1;
+
+        // carls new postion
+        Vector3 newPosition = carel.transform.position + (moveDirection * steps);
+
+        // how long carl takes to walk to destination
+        float timeToDestination = 1f;
+        // the timer
+        float currentTime = 0;
+       
+        float timeCompleted = currentTime / timeToDestination;
+        Vector3 currentpostion = Vector3.Lerp(carelRigidbody.position, newPosition,  timeCompleted);
+
+        while (timeCompleted <= timeToDestination)
+        {
+            currentTime += Time.deltaTime;
+            timeCompleted = currentTime / timeToDestination;
+
+            carelRigidbody.MovePosition( Vector3.Lerp(currentpostion, newPosition,  timeCompleted ));
+
+        yield return null;
+
+
+        }
+
+    }
 }
+

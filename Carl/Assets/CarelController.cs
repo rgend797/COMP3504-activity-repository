@@ -1,51 +1,281 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class CarelController : MonoBehaviour
 {
+
     // Define a delegate for functions with no parameters and void return type.
-    public delegate void CarelAction();
+    public delegate void CarelAction(Rigidbody carelRigidbody);
+    public Rigidbody carelRigidbody;
+
+
+    string[] commands;// = new string[] { "FORWARD", "RIGHT", "LEFT", "LEFT", "RIGHT", "FORWARD", "RIGHT", "LEFT" };
 
     // Create a list to store Carel actions (functions).
-    private List<CarelAction> actionList = new List<CarelAction>();
+    //private List<CarelAction> actionList = new List<CarelAction>();
 
     public GameObject carel; // Reference to Carel's GameObject.
+    public GameObject alphabet;
+    public GameObject basy;
+    public ProgramHandler handler;
+    private bool isWaiting = true;
+    private bool isButtonClicked = false;
+    
+
 
     // Reference to your moveForwardScript and turnLeftCodingBlock scripts.
-    public moveForwardScript moveScript;
-    public turnLeftCodingBlock turnLeftScript;
-    public turnRightBlockScript turnRightScript;
 
     private void Start()
     {
+        handler = alphabet.GetComponent<ProgramHandler>();
         // Add the desired functions to the action list.
-        actionList.Add(TurnRight);
-        actionList.Add(TurnLeft);
-        actionList.Add(() => MoveCareltest(2)); // Example of moving Carel forward 2 steps.
+        // actionList.Add(TurnRight);
+        //actionList.Add(TurnLeft);
+        //actionList.Add(() => MoveCareltest()); // Example of moving Carel forward 2 steps.
 
         // Execute the actions in the list.
-        foreach (var action in actionList)
+        //foreach (var action in actionList)
+        //{
+        //action.Invoke();
+
+        //ex();
+        carelRigidbody = GetComponent<Rigidbody>();
+
+        UpdateMoveDirection();
+
+    }
+
+    public void Update()
+    {
+        if (isButtonClicked)
         {
-            action.Invoke();
+            Debug.Log(gameObject.transform.eulerAngles.y);
+
+
+            // StartCoroutine(ExecuteCommandsCoroutine());
+            StartCoroutine(ResetCarelPosition());
+            isButtonClicked = false;
+        }
+
+    }
+
+    public void CheckButtonClick()
+    {
+        // Set the flag to true when the button is clicked
+        isButtonClicked = true;
+    }
+
+    IEnumerator ResetCarelPosition()
+    {
+
+        float  postion = 0.5f;
+        // Move Carel to home position.
+        Vector3 homePosition = new Vector3(basy.transform.position.x, basy.transform.position.y, basy.transform.position.z);
+        Quaternion homeRotation = Quaternion.Euler(basy.transform.rotation.x, basy.transform.rotation.y, basy.transform.rotation.z);
+        carel.transform.position = basy.transform.position;
+        carel.transform.rotation = basy.transform.rotation;
+        //carelRigidbody.MovePosition(homePosition);
+        //carelRigidbody.rotation = homeRotation;
+
+        // Wait for 5 seconds.
+        yield return new WaitForSeconds(2f);
+
+        // After waiting, execute the commands.
+        StartCoroutine(ExecuteCommandsCoroutine());
+    }
+
+
+    public  IEnumerator  ExecuteCommandsCoroutine()
+    {
+        String[] c = handler.getCommand();
+
+       
+        foreach (var command in c)
+        {
+            switch (command)
+            {
+                case "Forward":
+                    yield return StartCoroutine(MoveCarlTest());
+                    break;
+                case "Right":
+                    yield return StartCoroutine(TurnRight());
+                    break;
+                case "Left":
+                    yield return StartCoroutine(TurnLeft());
+                    break;
+            }
+            yield return new WaitForSeconds(1f); // Wait for one second
+
+        }
+
+    }
+    
+
+    //public string[] git() => ;//alphabet.GetComponent<ProgramHandler>.getCommand();
+    // Define the TurnRight function.
+
+
+    private Vector3 moveDirection;
+    private void UpdateMoveDirection()
+    {
+        // Get Carel's current rotation.
+        Quaternion rotation = carel.transform.rotation;
+
+        // Check if Carel is facing forward or backward (considering some tolerance).
+        if (Mathf.Abs(rotation.eulerAngles.y - 0f) < 45f || Mathf.Abs(rotation.eulerAngles.y - 180f) < 45f)
+        {
+            moveDirection = Vector3.forward;
+
+            Debug.Log(moveDirection);
+        }
+        // Check if Carel is facing right or left (considering some tolerance).
+        else if (Mathf.Abs(rotation.eulerAngles.y - 90f) < 45f || Mathf.Abs(rotation.eulerAngles.y - 270f) < 45f)
+        {
+            moveDirection = Vector3.right;
+        }
+        else
+        {
+            // If none of the above conditions match, you can handle it as needed.
+            Debug.LogWarning("Carel is not facing a valid direction.");
         }
     }
-
-    // Define the TurnRight function.
-    public void TurnRight()
+    /* public IEnumerator MoveCarlTest()
     {
-        turnRightScript.TurnRight();
+        /// the amount of steps carl will take
+        int steps = 1;
+        Debug.Log(moveDirection);
+
+        UpdateMoveDirection();
+
+        // carls new postion
+        Vector3 newPosition = carel.transform.position + ( transform.forward * steps);
+
+        // how long carl takes to walk to destination
+        float timeToDestination = 1f;
+        // the timer
+        float currentTime = 0;
+
+        float timeCompleted = currentTime / timeToDestination;
+        Vector3 currentpostion = Vector3.Lerp(carelRigidbody.position, newPosition, timeCompleted);
+
+        while (timeCompleted <= timeToDestination)
+        {
+            currentTime += Time.deltaTime;
+            timeCompleted = currentTime / timeToDestination;
+
+            carelRigidbody.MovePosition(Vector3.Lerp(currentpostion, newPosition, timeCompleted));
+
+            yield return null;
+
+
+        }
+
+    }
+    */
+    public IEnumerator MoveCarlTest()
+    {
+        int steps = 1;
+        Debug.Log(moveDirection);
+
+
+        UpdateMoveDirection();
+
+        carel.transform.position += (-transform.right * transform.localScale.x * steps);
+        yield return null;
+
+    }
+   
+    /*public IEnumerator MoveCarlTest()
+    {
+        // The amount of steps Carl will take
+        int steps = 1;
+        Debug.Log(moveDirection);
+
+
+        // Ensure that 'moveDirection' is updated based on Carl's current orientation.
+        UpdateMoveDirection();
+
+
+        // Carl's new position
+        // Replace 'transform.forward' with 'moveDirection' to use the updated movement direction
+        Vector3 newPosition = carel.transform.position + (-transform.right * transform.localScale.x * steps);
+
+        // How long Carl takes to walk to destination
+        float timeToDestination = 1f;
+
+        // Start time of the movement
+        float startTime = Time.time;
+
+        // Initial position of Carl
+        Vector3 initialPosition = carelRigidbody.position;
+
+        while (Time.time < startTime + timeToDestination)
+        {
+            // Calculate the completion ratio
+            float ratio = (Time.time - startTime) / timeToDestination;
+
+            // Update Carl's position
+            carelRigidbody.MovePosition(Vector3.Lerp(initialPosition, newPosition, ratio));
+
+            yield return null;
+        }
+
+        // Ensure Carl is exactly at the new position after the movement
+        carelRigidbody.MovePosition(newPosition);
+    }*/
+
+    public float turnAngle = 90f;
+    public float turnDuration = 5f;
+
+    public IEnumerator TurnLeft()
+    {
+        carel.transform.Rotate(0, carel.transform.rotation.y - 90f, 0);
+        yield return null;
     }
 
-    // Define the TurnLeft function.
-    public void TurnLeft()
+    public IEnumerator TurnRight()
     {
-        turnLeftScript.TurnLeft();
+        carel.transform.Rotate(0, carel.transform.rotation.y + 90f, 0);
+        yield return null;
+    }
+/*
+    public IEnumerator TurnLeft()
+    {
+        Quaternion startRotation = carelRigidbody.transform.rotation;
+        Quaternion endRotation = startRotation * Quaternion.Euler(0, -turnAngle, 0);
+        float currentTime = 0f;
+
+        while (currentTime < turnDuration)
+        {
+            currentTime += Time.deltaTime;
+            carelRigidbody.MoveRotation(Quaternion.Lerp(startRotation, endRotation, currentTime / turnDuration));
+            yield return null;
+        }
+
+        carelRigidbody.MoveRotation(endRotation); // Ensure final rotation is set accurately
     }
 
-    // Define the MoveCareltest function.
-    public void MoveCareltest(int steps)
+    public IEnumerator TurnRight()
     {
-        moveScript.MoveCareltest(steps);
-    }
+        Quaternion startRotation = carelRigidbody.transform.rotation;
+        Quaternion endRotation = startRotation * Quaternion.Euler(0, turnAngle, 0);
+        float currentTime = 0f;
+
+        while (currentTime < turnDuration)
+        {
+            currentTime += Time.deltaTime;
+            carelRigidbody.MoveRotation(Quaternion.Lerp(startRotation, endRotation, currentTime / turnDuration));
+            yield return null;
+        }
+
+        carelRigidbody.MoveRotation(endRotation); // Ensure final rotation is set accurately
+    }*/
+
+
 }

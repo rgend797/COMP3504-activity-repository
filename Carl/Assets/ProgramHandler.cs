@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using UnityEngine;
 public class ProgramHandler : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
+    private GameObject Carlo;
     public List<GameObject> list;
     public List<string> command;
     private object rectTransform;
@@ -15,27 +17,28 @@ public class ProgramHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            Debug.Log("space key was pressed");
-            Debug.Log(list.Count);
-            for (int i = 0; i < command.Count; i++)
-            {
-                Debug.Log(command[i]);
-            }
-            Debug.Log(getCommand());
-        }
-    }
-
+    /** void Update()
+     {
+         if (Input.GetKeyDown("space"))
+         {
+             Debug.Log("space key was pressed");
+             Debug.Log(list.Count);
+             getCommand();
+             for (int i = 0; i < command.Count; i++)
+             {
+                 Debug.Log(command[i]);
+             }
+             Debug.Log(getCommand());
+         }
+     }
+    **/
     public void updateList()
     {
-        top = (int) Mathf.Round(canvas.GetComponent<RectTransform>().rect.height);
+        top = (int)Mathf.Round(canvas.GetComponent<RectTransform>().rect.height);
         //Debug.Log("Height " + top);
         Debug.Log(list);
         Debug.Log(list.Count);
@@ -51,7 +54,7 @@ public class ProgramHandler : MonoBehaviour
 
     public void fuckinbitch(GameObject obj, int i)
     {
-        obj.GetComponent<ProgramBlock>().rectTransform.anchoredPosition = new Vector2(-350, (top/2)-20-(i*40));
+        obj.GetComponent<ProgramBlock>().rectTransform.anchoredPosition = new Vector2(-350, (top / 2) - 20 - (i * 40));
     }
 
     public void Add(GameObject obj)
@@ -66,13 +69,14 @@ public class ProgramHandler : MonoBehaviour
         Debug.Log("Removed");
     }
 
-    public void log()
+    public Boolean inList(GameObject obj)
     {
-        Debug.Log(list);
+        return list.Contains(obj);
     }
 
     public string[] getCommand()
     {
+        command.Clear();
         foreach (GameObject item in list)
         {
             command.Add(item.GetComponent<ProgramBlock>().getName());
