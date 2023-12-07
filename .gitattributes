@@ -1,3 +1,4 @@
 C:/Users/lukas/Desktop/COMP[[:space:]]3504[[:space:]]WorkSpace/COMP3504-group-project/Carl/Library/ArtifactDB/** filter=lfs diff=lfs merge=lfs -text
 C:/Users/lukas/Desktop/COMP[[:space:]]3504[[:space:]]WorkSpace/COMP3504-group-project/Carl/Library/ArtifactDB filter=lfs diff=lfs merge=lfs -text
 Library/ArtifactDB filter=lfs diff=lfs merge=lfs -text
+*.tgz filter=lfs diff=lfs merge=lfs -text
